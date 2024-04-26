@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug 'main_bot'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=main_bot",
+                    "--package=main_bot"
+                ],
+                "filter": {
+                    "name": "main_bot",
+                    "kind": "bin"
+                }
+            },
+            "envFile": "${workspaceFolder}/.env",
+            "args": [],
+        },
+    ]
+}

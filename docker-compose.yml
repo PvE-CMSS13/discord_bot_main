@@ -1,0 +1,15 @@
+
+#TODO: test live, readmes
+
+services:
+  main_bot:
+    build:
+      context: .
+    env_file: .env
+    networks:
+      - pvecm13-tgs
+
+networks:
+  pvecm13-tgs:
+    external:
+      true

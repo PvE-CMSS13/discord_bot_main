@@ -1,0 +1,12 @@
+[package]
+name = "main_bot"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { version = "1.0", features = ["rt-multi-thread", "macros", "time"] }
+serenity = "0.12"
+sqlx = { version = "0.7", features = ["runtime-tokio", "tls-rustls", "mysql"] }
+dotenvy = "0.15.7"
