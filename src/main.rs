@@ -54,7 +54,7 @@ impl EventHandler for DiscordHandler {
     }
 
     async fn ready(&self, _: Context, ready: Ready) {
-        println!("{} is connected!", ready.user.name);
+        println!("Connected as {}", ready.user.name);
     }
 }
 
