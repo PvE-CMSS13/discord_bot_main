@@ -1,16 +1,24 @@
 
 ARG RUST_VERSION=1.76.0
-ARG APP_NAME=main_bot
 
-
-FROM rust:${RUST_VERSION}-alpine AS build
-ARG APP_NAME
-WORKDIR /app
+FROM rust:${RUST_VERSION}-alpine AS chef
+RUN apk add --no-cache clang lld musl-dev git
+RUN cargo install cargo-chef
 COPY src/ /app/src
 COPY Cargo.toml /app
-RUN apk add --no-cache clang lld musl-dev git
+WORKDIR /app
 
-RUN cargo build --release && \
-    cp ./target/release/$APP_NAME /bin/main_bot
+FROM chef AS planner
+COPY . .
+RUN cargo chef prepare --recipe-path recipe.json
 
+FROM chef AS builder
+COPY --from=planner /app/recipe.json recipe.json
+RUN cargo chef cook --release --recipe-path recipe.json
+COPY . .
+RUN cargo build --release --bin main_bot
+
+FROM rust:${RUST_VERSION}-alpine AS runtime
+WORKDIR /app
+COPY --from=builder /app/target/release/main_bot /bin/main_bot
 CMD ["/bin/main_bot"]
